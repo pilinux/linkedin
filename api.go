@@ -4,8 +4,8 @@ package linkedin
 //
 // See: https://learn.microsoft.com/en-us/linkedin/marketing/versioning?view=li-lms-2024-04
 const (
-	OauthBaseURL     = "https://www.linkedin.com/oauth/v2/"
-	VersionedBaseURL = "https://api.linkedin.com/rest/"
+	OauthBaseURL     = "https://www.linkedin.com/oauth/v2"
+	VersionedBaseURL = "https://api.linkedin.com/rest"
 )
 
 // Method - HTTP method for an API call.
