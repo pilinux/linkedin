@@ -52,20 +52,30 @@ func (session *Session) sendAuthRequest(uri string, params Params) (Token, error
 	if clientSecret == "" {
 		return Token{}, fmt.Errorf("linkedIn: client_secret is required to receive new tokens")
 	}
-	redirectURI := params["redirect_uri"].(string)
-	if redirectURI == "" && grantType == "authorization_code" {
-		return Token{}, fmt.Errorf("linkedIn: redirect_uri is required to redeem auth code")
-	}
-	code := params["code"].(string)
-	if code == "" && grantType == "authorization_code" {
-		return Token{}, fmt.Errorf("linkedIn: auth code is required to receive new tokens")
-	}
-	refToken := params["refresh_token"].(string)
-	if refToken == "" && grantType == "refresh_token" {
-		return Token{}, fmt.Errorf("linkedIn: refresh_token is required to refresh tokens")
+
+	redirectURI := ""
+	code := ""
+	if grantType == "authorization_code" {
+		redirectURI = params["redirect_uri"].(string)
+		if redirectURI == "" {
+			return Token{}, fmt.Errorf("linkedIn: redirect_uri is required to redeem auth code")
+		}
+
+		code = params["code"].(string)
+		if code == "" {
+			return Token{}, fmt.Errorf("linkedIn: auth code is required to receive new tokens")
+		}
 	}
 
-	oauthURL := session.BaseURL + uri
+	refToken := ""
+	if grantType == "refresh_token" {
+		refToken = params["refresh_token"].(string)
+		if refToken == "" {
+			return Token{}, fmt.Errorf("linkedIn: refresh_token is required to refresh tokens")
+		}
+	}
+
+	oauthURL := OauthBaseURL + uri
 
 	// data to be sent in the body (x-www-form-urlencoded)
 	data := url.Values{}
