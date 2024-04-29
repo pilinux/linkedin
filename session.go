@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 // Session holds a LinkedIn session with an access token.
@@ -165,6 +166,76 @@ func (session *Session) sendAuthRequest(uri string, params Params) (Token, error
 	}
 
 	return token, nil
+}
+
+// Introspect checks the Time to Live (TTL) and status (active/expired) for the given token.
+//
+// See: https://learn.microsoft.com/en-us/linkedin/shared/authentication/token-introspection?toc=%2Flinkedin%2Fmarketing%2Ftoc.json&bc=%2Flinkedin%2Fbreadcrumb%2Ftoc.json&view=li-lms-2024-04&tabs=http
+func (session *Session) Introspect(token string) (TokenData, error) {
+	token = strings.TrimSpace(token)
+	if token == "" {
+		err := fmt.Errorf("linkedIn: token is empty")
+		return TokenData{}, err
+	}
+
+	tokenData, err := session.introspect("/introspectToken", Params{
+		"token": token,
+	})
+
+	return tokenData, err
+}
+
+// token introspection
+func (session *Session) introspect(uri string, params Params) (TokenData, error) {
+	if params == nil {
+		return TokenData{}, fmt.Errorf("linkedIn: required params are missing")
+	}
+
+	if params["token"] == nil {
+		return TokenData{}, fmt.Errorf("linkedIn: token is missing")
+	}
+	token := params["token"].(string)
+	if token == "" {
+		return TokenData{}, fmt.Errorf("linkedIn: token is required for introspection")
+	}
+
+	oauthURL := OauthBaseURL + uri
+
+	// data to be sent in the body (x-www-form-urlencoded)
+	data := url.Values{}
+	data.Set("client_id", session.App().ClientID)
+	data.Add("client_secret", session.App().ClientSecret)
+	data.Add("token", token)
+
+	// encode data into appropriate format
+	requestBody := bytes.NewBufferString(data.Encode())
+
+	// create a new HTTP request
+	request, err := http.NewRequest("POST", oauthURL, requestBody)
+	if err != nil {
+		return TokenData{}, err
+	}
+
+	// set headers
+	request.Header.Set(string(ContentType), string(URLEncoded))
+
+	// send the request
+	response, responseData, err := session.sendRequest(request)
+	if err != nil {
+		return TokenData{}, err
+	}
+	if response.StatusCode != http.StatusOK {
+		return TokenData{}, fmt.Errorf("linkedIn: failed to introspect token with status %d", response.StatusCode)
+	}
+
+	// parse the response body
+	var tokenData TokenData
+	err = json.Unmarshal(responseData, &tokenData)
+	if err != nil {
+		return TokenData{}, err
+	}
+
+	return tokenData, nil
 }
 
 // sendRequest sends an API request and returns the response.
