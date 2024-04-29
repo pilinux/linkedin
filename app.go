@@ -2,6 +2,7 @@ package linkedin
 
 import (
 	"fmt"
+	"strings"
 )
 
 // App holds the configuration for the LinkedIn application.
@@ -28,6 +29,7 @@ func New(clientID, clientSecret string) *App {
 //
 // See https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin%2Fcontext&tabs=HTTPS1
 func (app *App) ParseCode(code string) (Token, error) {
+	code = strings.TrimSpace(code)
 	if code == "" {
 		err := fmt.Errorf("linkedIn: authorization code is empty")
 		return Token{}, err

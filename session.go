@@ -38,15 +38,52 @@ var (
 	defaultSession = &Session{}
 )
 
+// App returns associated App.
+func (session *Session) App() *App {
+	return session.app
+}
+
+// AccessToken returns current access token.
+func (session *Session) AccessToken() string {
+	return session.accessToken
+}
+
+// SetAccessToken sets a new access token.
+func (session *Session) SetAccessToken(token string) {
+	if token != session.accessToken {
+		session.accessToken = token
+	}
+}
+
+// UseAuthorizationHeader passes `access_token` in HTTP Authorization header.
+func (session *Session) UseAuthorizationHeader() {
+	session.useAuthorizationHeader = true
+}
+
 // sendAuthRequest sends an auth request to LinkedIn and returns new tokens.
 func (session *Session) sendAuthRequest(uri string, params Params) (Token, error) {
+	if params == nil {
+		return Token{}, fmt.Errorf("linkedIn: required params are missing")
+	}
+
+	if params["grant_type"] == nil {
+		return Token{}, fmt.Errorf("linkedIn: grant_type is missing")
+	}
 	grantType := params["grant_type"].(string)
 	if grantType == "" {
 		return Token{}, fmt.Errorf("linkedIn: grant_type is required to receive new tokens")
 	}
+
+	if params["client_id"] == nil {
+		return Token{}, fmt.Errorf("linkedIn: client_id is missing")
+	}
 	clientID := params["client_id"].(string)
 	if clientID == "" {
 		return Token{}, fmt.Errorf("linkedIn: client_id is required to receive new tokens")
+	}
+
+	if params["client_secret"] == nil {
+		return Token{}, fmt.Errorf("linkedIn: client_secret is missing")
 	}
 	clientSecret := params["client_secret"].(string)
 	if clientSecret == "" {
@@ -56,11 +93,17 @@ func (session *Session) sendAuthRequest(uri string, params Params) (Token, error
 	redirectURI := ""
 	code := ""
 	if grantType == "authorization_code" {
+		if params["redirect_uri"] == nil {
+			return Token{}, fmt.Errorf("linkedIn: redirect_uri is missing")
+		}
 		redirectURI = params["redirect_uri"].(string)
 		if redirectURI == "" {
 			return Token{}, fmt.Errorf("linkedIn: redirect_uri is required to redeem auth code")
 		}
 
+		if params["code"] == nil {
+			return Token{}, fmt.Errorf("linkedIn: auth code is missing")
+		}
 		code = params["code"].(string)
 		if code == "" {
 			return Token{}, fmt.Errorf("linkedIn: auth code is required to receive new tokens")
@@ -69,6 +112,9 @@ func (session *Session) sendAuthRequest(uri string, params Params) (Token, error
 
 	refToken := ""
 	if grantType == "refresh_token" {
+		if params["refresh_token"] == nil {
+			return Token{}, fmt.Errorf("linkedIn: refresh_token is missing")
+		}
 		refToken = params["refresh_token"].(string)
 		if refToken == "" {
 			return Token{}, fmt.Errorf("linkedIn: refresh_token is required to refresh tokens")
