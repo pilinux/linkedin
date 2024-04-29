@@ -64,4 +64,38 @@ func main() {
 	}
 	fmt.Println("Access Token:", token.AccessToken)
 	fmt.Println("Refresh Token:", token.RefreshToken)
+
+	// create a new session
+	session := GlobalApp.Session(token.AccessToken)
+
+	// token introspection
+	accessTokenData, err := session.Introspect(session.AccessToken())
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("access token introspection:")
+	fmt.Println("Active:", accessTokenData.Active)
+	fmt.Println("ClientID:", accessTokenData.ClientID)
+	fmt.Println("AuthorizedAt:", accessTokenData.AuthorizedAt)
+	fmt.Println("CreatedAt:", accessTokenData.CreatedAt)
+	fmt.Println("Status:", accessTokenData.Status)
+	fmt.Println("ExpiresAt:", accessTokenData.ExpiresAt)
+	fmt.Println("Scope:", accessTokenData.Scope)
+	fmt.Println("AuthType:", accessTokenData.AuthType)
+
+	refreshTokenData, err := session.Introspect(token.RefreshToken)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("refresh token introspection:")
+	fmt.Println("Active:", refreshTokenData.Active)
+	fmt.Println("ClientID:", refreshTokenData.ClientID)
+	fmt.Println("AuthorizedAt:", refreshTokenData.AuthorizedAt)
+	fmt.Println("CreatedAt:", refreshTokenData.CreatedAt)
+	fmt.Println("Status:", refreshTokenData.Status)
+	fmt.Println("ExpiresAt:", refreshTokenData.ExpiresAt)
+	fmt.Println("Scope:", refreshTokenData.Scope)
+	fmt.Println("AuthType:", refreshTokenData.AuthType)
 }
