@@ -1,5 +1,11 @@
 # LinkedIn API Go Client
 
+![CodeQL][12]
+![Linter][13]
+[![Go Reference][14]][15]
+[![Go Report Card][16]][17]
+[![MIT license][18]][11]
+
 This Go package provides a thin client for making requests to LinkedIn APIs following the official [LinkedIn API documentation][01].
 
 > :warning: This API client package is currently in beta and is subject to change. It may contain bugs, errors, or other issues that we are working to resolve. Use of this package is at your own risk. Please use caution when using it in production environments and be prepared for the possibility of unexpected behavior. We welcome any feedback or reports of issues that you may encounter while using this package.
@@ -37,3 +43,10 @@ Released under the [MIT license][11]
 [03]: https://learn.microsoft.com/en-us/linkedin/marketing/versioning?view=li-lms-2024-04
 [04]: _example
 [11]: LICENSE
+[12]: https://github.com/pilinux/linkedin/actions/workflows/codeql-analysis.yml/badge.svg
+[13]: https://github.com/pilinux/linkedin/actions/workflows/golangci-lint.yml/badge.svg
+[14]: https://pkg.go.dev/badge/github.com/pilinux/linkedin
+[15]: https://pkg.go.dev/github.com/pilinux/linkedin
+[16]: https://goreportcard.com/badge/github.com/pilinux/linkedin
+[17]: https://goreportcard.com/report/github.com/pilinux/linkedin
+[18]: https://img.shields.io/badge/license-MIT-brightgreen.svg
