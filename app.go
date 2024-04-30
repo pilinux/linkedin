@@ -49,7 +49,9 @@ func (app *App) ParseCode(code string) (Token, error) {
 // Session creates a new LinkedIn session based on the app configuration.
 func (app *App) Session(accessToken string) *Session {
 	return &Session{
-		accessToken: accessToken,
-		app:         app,
+		BaseURL:         VersionedBaseURL,
+		accessToken:     accessToken,
+		app:             app,
+		LinkedInVersion: "202404",
 	}
 }
