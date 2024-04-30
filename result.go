@@ -1,5 +1,8 @@
 package linkedin
 
+// Result - response body from LinkedIn API call request.
+type Result map[string]interface{}
+
 // Token - access and refresh tokens.
 //
 // See: https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?toc=%2Flinkedin%2Fmarketing%2Ftoc.json&bc=%2Flinkedin%2Fbreadcrumb%2Ftoc.json&view=li-lms-2024-04&tabs=HTTPS1#step-3-exchange-authorization-code-for-an-access-token
