@@ -61,6 +61,26 @@ func (session *Session) UseAuthorizationHeader() {
 	session.useAuthorizationHeader = true
 }
 
+// RefreshToken redeems refresh token for new access and refresh tokens.
+//
+// See: https://learn.microsoft.com/en-us/linkedin/shared/authentication/programmatic-refresh-tokens?toc=%2Flinkedin%2Fmarketing%2Ftoc.json&bc=%2Flinkedin%2Fbreadcrumb%2Ftoc.json&view=li-lms-2024-04
+func (session *Session) RefreshToken(refreshToken string) (Token, error) {
+	refreshToken = strings.TrimSpace(refreshToken)
+	if refreshToken == "" {
+		err := fmt.Errorf("linkedIn: refresh token is empty")
+		return Token{}, err
+	}
+
+	token, err := session.sendAuthRequest("/accessToken", Params{
+		"grant_type":    "refresh_token",
+		"client_id":     session.App().ClientID,
+		"client_secret": session.App().ClientSecret,
+		"refresh_token": refreshToken,
+	})
+
+	return token, err
+}
+
 // sendAuthRequest sends an auth request to LinkedIn and returns new tokens.
 func (session *Session) sendAuthRequest(uri string, params Params) (Token, error) {
 	if params == nil {
