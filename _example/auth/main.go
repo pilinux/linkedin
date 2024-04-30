@@ -98,4 +98,13 @@ func main() {
 	fmt.Println("ExpiresAt:", refreshTokenData.ExpiresAt)
 	fmt.Println("Scope:", refreshTokenData.Scope)
 	fmt.Println("AuthType:", refreshTokenData.AuthType)
+
+	// refresh tokens
+	newTokens, err := session.RefreshToken(token.RefreshToken)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("New Access Token:", newTokens.AccessToken)
+	fmt.Println("New Refresh Token:", newTokens.RefreshToken)
 }
