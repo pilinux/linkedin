@@ -55,3 +55,8 @@ func (app *App) Session(accessToken string) *Session {
 		LinkedInVersion: "202404",
 	}
 }
+
+// SetLinkedInVersion overrides the default LinkedIn API version.
+func (session *Session) SetLinkedInVersion(version string) {
+	session.LinkedInVersion = version
+}

@@ -45,6 +45,9 @@ func main() {
 	// create a new LinkedIn session
 	session := GlobalApp.Session(token.AccessToken)
 
+	// override the default LinkedIn API version
+	session.SetLinkedInVersion("202405")
+
 	// set Authorization header
 	session.UseAuthorizationHeader()
 
