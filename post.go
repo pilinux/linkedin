@@ -30,8 +30,7 @@ type ReshareContextPost struct {
 
 // DistributionPost struct for LinkedIn post distribution
 type DistributionPost struct {
-	FeedDistribution               string   `json:"feedDistribution"` // e.g. MAIN_FEED
-	ThirdPartyDistributionChannels []string `json:"thirdPartyDistributionChannels"`
+	FeedDistribution string `json:"feedDistribution"` // e.g. MAIN_FEED
 }
 
 // LifecycleStateInfoPost struct for LinkedIn post lifecycle state information
