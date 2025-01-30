@@ -32,16 +32,27 @@ This Go package provides a thin client for making requests to LinkedIn APIs foll
 - [x]: Fine-grained control over all API calls using `App` and `Session`
 - [x]: Extensive documentation and [examples][04]
 
+## References
+
+- [LinkedIn API Documentation][01]
+- [LinkedIn Marketing APIs][05]
+  - [LinkedIn Marketing API Versioning][03]
+  - [Community Management][06]
+  - [Recent Marketing API Changes][07]
+
 ## License
 
-© Mahir Hasan 2024
+© Mahir Hasan 2024 - 2025.
 
 Released under the [MIT license][11]
 
-[01]: https://learn.microsoft.com/en-us/linkedin/?view=li-lms-2024-04
+[01]: https://learn.microsoft.com/en-us/linkedin/
 [02]: https://linkedin.github.io/rest.li/
-[03]: https://learn.microsoft.com/en-us/linkedin/marketing/versioning?view=li-lms-2024-04
+[03]: https://learn.microsoft.com/en-us/linkedin/marketing/versioning
 [04]: _example
+[05]: https://learn.microsoft.com/en-us/linkedin/marketing
+[06]: https://learn.microsoft.com/en-us/linkedin/marketing/community-management/community-management-overview
+[07]: https://learn.microsoft.com/en-us/linkedin/marketing/integrations/recent-changes
 [11]: LICENSE
 [12]: https://github.com/pilinux/linkedin/actions/workflows/codeql-analysis.yml/badge.svg
 [13]: https://github.com/pilinux/linkedin/actions/workflows/golangci-lint.yml/badge.svg
