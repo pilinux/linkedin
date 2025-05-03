@@ -26,11 +26,11 @@ This Go package provides a thin client for making requests to LinkedIn APIs foll
 
 ## Features
 
-- [x]: Supports [Rest.li][02] protocol version 2.0.0
-- [x]: Supports [LinkedIn versioned][03] APIs
-- [x]: 2-legged and 3-legged OAuth2 support
-- [x]: Fine-grained control over all API calls using `App` and `Session`
-- [x]: Extensive documentation and [examples][04]
+- [x] Supports [Rest.li][02] protocol version 2.0.0
+- [x] Supports [LinkedIn versioned][03] APIs
+- [x] 2-legged and 3-legged OAuth2 support
+- [x] Fine-grained control over all API calls using `App` and `Session`
+- [x] Extensive documentation and [examples][04]
 
 ## References
 
