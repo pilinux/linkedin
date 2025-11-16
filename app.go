@@ -72,7 +72,7 @@ func (app *App) Session(accessToken string) *Session {
 		BaseURL:         VersionedBaseURL,
 		accessToken:     accessToken,
 		app:             app,
-		LinkedInVersion: "202501",
+		LinkedInVersion: "202510",
 	}
 }
 
