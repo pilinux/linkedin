@@ -285,9 +285,11 @@ func (session *Session) sendRequest(request *http.Request) (response *http.Respo
 
 	buf := &bytes.Buffer{}
 	_, err = io.Copy(buf, response.Body)
-	response.Body.Close()
+	closeErr := response.Body.Close()
 	if err != nil {
 		err = fmt.Errorf("linkedIn: cannot read linkedIn response; %w", err)
+	} else if closeErr != nil {
+		err = fmt.Errorf("linkedIn: error closing response body; %w", closeErr)
 	}
 
 	data = buf.Bytes()
