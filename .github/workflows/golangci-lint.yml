@@ -20,20 +20,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            **/go.sum
-            **/go.mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
-
       - name: Setup Go
         uses: actions/setup-go@v6
         with:
           go-version: 1.19
+          cache: true
       - run: go version
 
       - name: golangci-lint
